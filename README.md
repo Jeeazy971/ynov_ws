@@ -1,92 +1,88 @@
-# Documentation du Projet Node.js avec MongoDB et PostgreSQL
 
-Ce projet illustre comment construire une application Node.js utilisant Express pour interagir avec MongoDB et PostgreSQL. Il couvre la configuration des bases de données, la création d'une API RESTful, et l'intégration de Swagger pour la documentation de l'API.
+---
 
-## Configuration de l'Environnement
+# Ynov Web Services Project
 
-Assurez-vous que Node.js est installé sur votre système. Vous aurez également besoin de MongoDB et PostgreSQL installés et en cours d'exécution, que ce soit localement ou via des services cloud.
+Ce projet est une API REST conçue avec Node.js et Express, utilisant MongoDB comme base de données et intégrant Swagger pour la documentation de l'API. Il permet de gérer des "masques" et des "entrées" en fournissant des opérations CRUD pour chaque entité.
 
-### Dépendances
+## Technologies Utilisées
 
-Exécutez la commande suivante pour installer les dépendances nécessaires :
-
-```bash
-npm install express mongoose pg swagger-ui-express yamljs
-```
+- **Node.js** : Environnement d'exécution JavaScript côté serveur.
+- **Express** : Framework pour la création d'applications web et API.
+- **MongoDB** : Base de données NoSQL orientée documents.
+- **Mongoose** : Bibliothèque de modélisation d'objets MongoDB pour Node.js.
+- **Swagger** : Outil de documentation d'APIs pour générer une documentation interactive.
 
 ## Structure du Projet
 
+Le projet est structuré comme suit :
+
 ```
-projet/
+ynov_ws/
 │
-├── db/
-│   ├── mongodb/
-│   │   ├── mongodbConnect.js
-│   │   ├── mongodbModels.js
-│   │   └── mongodbOperations.js
-│   │
-│   └── postgres/
-│       ├── postgresConnect.js
-│       ├── postgresModels.js
-│       └── postgresOperations.js
-│
-├── routes/
-│   ├── mongodbRoutes.js
-│   └── postgresRoutes.js
-│
-├── controllers/
-│   ├── mongodbController.js
-│   └── postgresController.js
-│
-├── app.js
+├── src/
+│   ├── config/
+│   ├── controllers/
+│   ├── models/
+│   ├── routes/
+│   ├── services/
+│   └── index.ts
+├── .gitignore
 ├── package.json
+├── tsconfig.json (si TypeScript est utilisé)
 └── README.md
 ```
 
-## Configuration de la Base de Données
+## Installation
 
-### MongoDB
+Pour configurer le projet localement, suivez ces étapes :
 
-1. **Connexion à MongoDB** : Configurez `db/mongodb/mongodbConnect.js` avec vos paramètres de connexion MongoDB.
-2. **Modèles MongoDB** : Définissez vos modèles de données dans `db/mongodb/mongodbModels.js`.
+1. Clonez le dépôt Git :
+   ```bash
+   git clone https://github.com/Jeeazy971/ynov_ws.git
+   ```
 
-### PostgreSQL
+2. Naviguez dans le dossier du projet :
+   ```bash
+   cd ynov_ws
+   ```
 
-1. **Connexion à PostgreSQL** : Configurez `db/postgres/postgresConnect.js` avec vos paramètres de connexion PostgreSQL.
-2. **Modèles PostgreSQL** : Définissez vos tables et relations dans `db/postgres/postgresModels.js`.
+3. Installez les dépendances :
+   ```bash
+   npm install
+   ```
 
-## API Endpoints
+## Démarrage du Projet
 
-Les endpoints suivants sont configurés pour MongoDB et PostgreSQL :
-
-### MongoDB
-
--   **Créer un Masque** : `POST /api/mongodb/masks`
--   **Récupérer Tous les Masques** : `GET /api/mongodb/masks`
--   **Récupérer un Masque par ID** : `GET /api/mongodb/masks/:id`
--   **Mettre à Jour un Masque** : `PUT /api/mongodb/masks/:id`
--   **Supprimer un Masque** : `DELETE /api/mongodb/masks/:id`
-
-### PostgreSQL
-
--   **Créer un Masque** : `POST /api/postgres/masks`
--   **Récupérer Tous les Masques** : `GET /api/postgres/masks`
--   **Récupérer un Masque par ID** : `GET /api/postgres/masks/:id`
--   **Mettre à Jour un Masque** : `PUT /api/postgres/masks/:id`
--   **Supprimer un Masque** : `DELETE /api/postgres/masks/:id`
-
-## Swagger API Documentation
-
-La documentation de l'API est disponible à `/api-docs` grâce à l'intégration de Swagger UI.
-
-## Démarrage du Serveur
-
-Pour démarrer le serveur, exécutez :
+Pour démarrer le serveur :
 
 ```bash
-node app.js
+npm start
 ```
 
-Le serveur sera accessible sur `http://localhost:3000`, et la documentation Swagger UI sur `http://localhost:3000/api-docs`.
+Si vous développez et souhaitez que le serveur se recharge automatiquement à chaque modification de fichier, utilisez :
+
+```bash
+npm run dev
+```
+
+## Utilisation de Swagger UI
+
+Une fois le serveur démarré, accédez à Swagger UI pour tester l'API et voir la documentation interactive :
+
+```
+http://localhost:3000/api-docs
+```
+
+Dans Swagger UI, vous pouvez :
+
+- Voir la liste de tous les points de terminaison disponibles.
+- Tester les opérations CRUD en envoyant des requêtes directement depuis l'interface.
+- Voir les détails des requêtes et des réponses, y compris les exemples de corps de requête et les schémas de réponse.
+
+## Fonctionnalités
+
+- **CRUD Masques** : Permet de créer, lire, mettre à jour, et supprimer des masques.
+- **CRUD Entrées** : Permet de créer, lire, mettre à jour, et supprimer des entrées associées à des masques.
 
 ---
