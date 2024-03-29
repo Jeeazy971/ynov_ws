@@ -1,0 +1,19 @@
+{
+    "name": "ynov_ws",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "init:postgres": "node db/postgres/dbInit.js",
+        "crud:postgres": "node db/postgres/dbCRUD.js"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "express": "^4.19.2",
+        "pg": "^8.11.3",
+        "swagger-ui-express": "^5.0.0",
+        "yamljs": "^0.3.0"
+    }
+}

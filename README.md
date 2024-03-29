@@ -1,4 +1,3 @@
-
 # Documentation du Projet Node.js avec MongoDB et PostgreSQL
 
 Ce projet illustre comment construire une application Node.js utilisant Express pour interagir avec MongoDB et PostgreSQL. Il couvre la configuration des bases de données, la création d'une API RESTful, et l'intégration de Swagger pour la documentation de l'API.
@@ -62,19 +61,19 @@ Les endpoints suivants sont configurés pour MongoDB et PostgreSQL :
 
 ### MongoDB
 
-- **Créer un Masque** : `POST /api/mongodb/masks`
-- **Récupérer Tous les Masques** : `GET /api/mongodb/masks`
-- **Récupérer un Masque par ID** : `GET /api/mongodb/masks/:id`
-- **Mettre à Jour un Masque** : `PUT /api/mongodb/masks/:id`
-- **Supprimer un Masque** : `DELETE /api/mongodb/masks/:id`
+-   **Créer un Masque** : `POST /api/mongodb/masks`
+-   **Récupérer Tous les Masques** : `GET /api/mongodb/masks`
+-   **Récupérer un Masque par ID** : `GET /api/mongodb/masks/:id`
+-   **Mettre à Jour un Masque** : `PUT /api/mongodb/masks/:id`
+-   **Supprimer un Masque** : `DELETE /api/mongodb/masks/:id`
 
 ### PostgreSQL
 
-- **Créer un Masque** : `POST /api/postgres/masks`
-- **Récupérer Tous les Masques** : `GET /api/postgres/masks`
-- **Récupérer un Masque par ID** : `GET /api/postgres/masks/:id`
-- **Mettre à Jour un Masque** : `PUT /api/postgres/masks/:id`
-- **Supprimer un Masque** : `DELETE /api/postgres/masks/:id`
+-   **Créer un Masque** : `POST /api/postgres/masks`
+-   **Récupérer Tous les Masques** : `GET /api/postgres/masks`
+-   **Récupérer un Masque par ID** : `GET /api/postgres/masks/:id`
+-   **Mettre à Jour un Masque** : `PUT /api/postgres/masks/:id`
+-   **Supprimer un Masque** : `DELETE /api/postgres/masks/:id`
 
 ## Swagger API Documentation
 
@@ -91,5 +90,3 @@ node app.js
 Le serveur sera accessible sur `http://localhost:3000`, et la documentation Swagger UI sur `http://localhost:3000/api-docs`.
 
 ---
-
-# ynov_ws
