@@ -22,13 +22,21 @@ const router = express.Router();
  *           schema:
  *             type: object
  *             properties:
+ *               name:
+ *                 type: string
+ *                 description: Le nom de l'entrée
+ *                 example: "Masque chirurgical"
+ *               description:
+ *                 type: string
+ *                 description: La description de l'entrée
+ *                 example: "Utilisé dans les hôpitaux"
  *               idMask:
  *                 type: integer
  *                 description: ID du masque associé à l'entrée
  *                 example: 1
  *               entryJson:
  *                 type: object
- *                 description: Les données JSON de l'entrée
+ *                 description: Les données JSON supplémentaires de l'entrée
  *                 example: { usage: "hospital", quantity: 100 }
  *     responses:
  *       201:
@@ -139,4 +147,3 @@ router.put('/:id', updateEntry);
 router.delete('/:id', deleteEntry);
 
 export default router;
-

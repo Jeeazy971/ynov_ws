@@ -1,24 +1,41 @@
+import dotenv from 'dotenv';
 import express, { Application } from 'express';
-import swaggerUi from 'swagger-ui-express';
+import * as swaggerUi from 'swagger-ui-express';
 import swaggerSpec from './config/swaggerConfig';
-
 import maskRoutes from './routes/maskRoutes';
 import entryRoutes from './routes/entryRoutes';
+import connectMongoDB from './config/mongodb';
+import { sequelize } from './config/sequelize';
+
+dotenv.config();
 
 const app: Application = express();
-
-// Middleware pour parser les corps de requête JSON
-app.use(express.json());
-
-// Setup Swagger
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
-
-// Utilisez vos routes importées avec le préfixe '/api' si désiré
-app.use('/api/masks', maskRoutes);
-app.use('/api/entries', entryRoutes);
-
-// Définition du port
 const PORT: number | string = process.env.PORT || 3000;
 
-// Démarrage du serveur
-app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
+app.use(express.json());
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.use('/masks', maskRoutes);
+app.use('/entries', entryRoutes);
+
+// Fonction pour démarrer le serveur
+async function startServer() {
+    try {
+        // Connexion à MongoDB
+        await connectMongoDB();
+        console.log('Connected to MongoDB');
+
+        // Connexion à PostgreSQL via Sequelize
+        await sequelize.authenticate();
+        console.log('Connection to PostgreSQL has been established successfully.');
+
+        // Démarrage du serveur
+        app.listen(PORT, () =>
+            console.log(`Server running on http://localhost:${PORT}/api-docs`),
+        );
+    } catch (error) {
+        console.error('Database connection error:', error);
+        process.exit(1); // Arrêt du processus en cas d'échec de connexion
+    }
+}
+
+startServer();

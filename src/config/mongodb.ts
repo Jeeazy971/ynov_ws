@@ -1,10 +1,21 @@
 import mongoose from 'mongoose';
+import dotenv from 'dotenv';
 
-const mongoURI = 'mongodb+srv://admin-josue:@ynovmask.lbmksbn.mongodb.net/';
+dotenv.config();
 
-mongoose
-    .connect(mongoURI)
-    .then(() => console.log('Connected to MongoDB'))
-    .catch((err) => console.error('Could not connect to MongoDB:', err));
+if (!process.env.MONGO_URI) {
+    throw new Error('MONGO_URI must be defined');
+}
 
-export default mongoose;
+const mongoURI = process.env.MONGO_URI;
+
+const connectMongoDB = async () => {
+    try {
+        await mongoose.connect(mongoURI);
+    } catch (err) {
+        console.error('Could not connect to MongoDB:', err);
+        process.exit(1);
+    }
+};
+
+export default connectMongoDB;
