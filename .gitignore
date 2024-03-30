@@ -2,7 +2,6 @@
 /node_modules
 
 # Fichiers de build
-/dist
 /build
 
 # Fichiers de configuration d'environnement
