@@ -2,8 +2,7 @@
     "name": "ynov_ws",
     "version": "1.0.0",
     "description": "",
-    "main": "index.ts",
-    "type": "module",
+    "main": "index.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
         "start": "nodemon -e ts,json -x ts-node src/index.ts",
