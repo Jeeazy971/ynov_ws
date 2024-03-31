@@ -56,7 +56,6 @@ const router = express_1.default.Router();
  *               type: array
  *               items:
  *                 $ref: '#/components/schemas/Mask'
- *
  *   post:
  *     summary: Crée un nouveau masque
  *     tags: [Masks]
@@ -119,7 +118,29 @@ const router = express_1.default.Router();
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/Mask'
+ *             type: object
+ *             required:
+ *               - name
+ *               - description
+ *               - type
+ *               - rating
+ *             properties:
+ *               name:
+ *                 type: string
+ *                 example: "Masque N95"
+ *                 description: Le nom du masque.
+ *               description:
+ *                 type: string
+ *                 example: "Un masque très efficace pour filtrer les particules."
+ *                 description: La description du masque.
+ *               type:
+ *                 type: string
+ *                 example: "N95"
+ *                 description: Le type du masque.
+ *               rating:
+ *                 type: integer
+ *                 example: 95
+ *                 description: L'efficacité du masque notée sur 100.
  *     responses:
  *       200:
  *         description: Le masque a été mis à jour

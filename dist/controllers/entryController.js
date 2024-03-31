@@ -22,21 +22,12 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteEntry = exports.updateEntry = exports.getEntryById = exports.getAllEntries = exports.createEntry = void 0;
 const entryService = __importStar(require("../services/entryService"));
-const createEntry = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const createEntry = async (req, res) => {
     try {
-        const entry = yield entryService.createEntry(req.body);
+        const entry = await entryService.createEntry(req.body);
         res.status(201).json(entry);
     }
     catch (error) {
@@ -47,11 +38,11 @@ const createEntry = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
             res.status(400).json({ error: 'An unknown error occurred' });
         }
     }
-});
+};
 exports.createEntry = createEntry;
-const getAllEntries = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const getAllEntries = async (req, res) => {
     try {
-        const entries = yield entryService.findAllEntries();
+        const entries = await entryService.findAllEntries();
         res.json(entries);
     }
     catch (error) {
@@ -62,11 +53,11 @@ const getAllEntries = (req, res) => __awaiter(void 0, void 0, void 0, function* 
             res.status(500).json({ error: 'An unknown error occurred' });
         }
     }
-});
+};
 exports.getAllEntries = getAllEntries;
-const getEntryById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const getEntryById = async (req, res) => {
     try {
-        const entry = yield entryService.findEntryById(req.params.id);
+        const entry = await entryService.findEntryById(req.params.id);
         if (entry) {
             res.json(entry);
         }
@@ -82,11 +73,11 @@ const getEntryById = (req, res) => __awaiter(void 0, void 0, void 0, function* (
             res.status(500).json({ error: 'An unknown error occurred' });
         }
     }
-});
+};
 exports.getEntryById = getEntryById;
-const updateEntry = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const updateEntry = async (req, res) => {
     try {
-        const updatedEntry = yield entryService.updateEntryById(req.params.id, req.body);
+        const updatedEntry = await entryService.updateEntryById(req.params.id, req.body);
         if (updatedEntry) {
             res.json(updatedEntry);
         }
@@ -102,11 +93,11 @@ const updateEntry = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
             res.status(500).json({ error: 'An unknown error occurred' });
         }
     }
-});
+};
 exports.updateEntry = updateEntry;
-const deleteEntry = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const deleteEntry = async (req, res) => {
     try {
-        const deletedEntry = yield entryService.deleteEntryById(req.params.id);
+        const deletedEntry = await entryService.deleteEntryById(req.params.id);
         if (deletedEntry) {
             res.status(204).send();
         }
@@ -122,5 +113,5 @@ const deleteEntry = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
             res.status(500).json({ error: 'An unknown error occurred' });
         }
     }
-});
+};
 exports.deleteEntry = deleteEntry;

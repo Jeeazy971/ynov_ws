@@ -5,7 +5,7 @@ import swaggerSpec from './config/swaggerConfig';
 import maskRoutes from './routes/maskRoutes';
 import entryRoutes from './routes/entryRoutes';
 import connectMongoDB from './config/mongodb';
-import { sequelize } from './config/sequelize';
+import sequelize  from './config/sequelize';
 
 dotenv.config();
 

@@ -1,5 +1,5 @@
 import { Model, DataTypes, Optional } from 'sequelize';
-import {sequelize} from '../../config/sequelize'; // Adjust based on your setup
+import sequelize from '../../config/sequelize';
 
 interface MaskAttributes {
     id: number;
