@@ -7,7 +7,7 @@ const mongoose_1 = __importDefault(require("mongoose"));
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
 if (!process.env.MONGO_URI) {
-    throw new Error('MONGO_URI must be defined');
+    throw new Error('MONGO_URI doit être défini');
 }
 const mongoURI = process.env.MONGO_URI;
 const connectMongoDB = async () => {
@@ -15,7 +15,7 @@ const connectMongoDB = async () => {
         await mongoose_1.default.connect(mongoURI);
     }
     catch (err) {
-        console.error('Could not connect to MongoDB:', err);
+        console.error('Impossible de se connecter à MongoDB :', err);
         process.exit(1);
     }
 };

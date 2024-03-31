@@ -45,15 +45,15 @@ app.use('/entries', entryRoutes_1.default);
 async function startServer() {
     try {
         await sequelize_1.default.authenticate();
-        console.log('Connection to PostgreSQL has been established successfully.');
+        console.log('La connexion à PostgreSQL a été établie avec succès.');
         await sequelize_1.default.sync({ force: false });
-        console.log('Database models synchronized.');
+        console.log('Synchronisation des modèles de base de données.');
         await (0, mongodb_1.default)();
-        console.log('Connected to MongoDB');
-        app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}/api-docs`));
+        console.log('Connecté à MongoDB');
+        app.listen(PORT, () => console.log(`Serveur fonctionnant sur http://localhost:${PORT}/api-docs`));
     }
     catch (error) {
-        console.error('Database connection error:', error);
+        console.error('Erreur de connexion à la base de données :', error);
         process.exit(1);
     }
 }
