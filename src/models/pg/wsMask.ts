@@ -1,5 +1,5 @@
 import { Model, DataTypes, Optional } from 'sequelize';
-import {sequelize} from '../../config/sequelize'; // Adjust import based on your setup
+import {sequelize} from '../../config/sequelize'; // Adjust based on your setup
 
 interface MaskAttributes {
     id: number;
@@ -8,7 +8,6 @@ interface MaskAttributes {
     rating: number;
 }
 
-// Use 'Optional' for creation attributes to specify which attributes are optional in the 'create' method
 interface MaskCreationAttributes extends Optional<MaskAttributes, 'id'> {}
 
 class Mask
@@ -19,13 +18,10 @@ class Mask
     public name!: string;
     public type!: string;
     public rating!: number;
-
-    // Readonly properties for the timestamps
     public readonly createdAt!: Date;
     public readonly updatedAt!: Date;
 }
 
-// Initialize the model's schema using 'init'
 Mask.init(
     {
         id: {
@@ -34,11 +30,11 @@ Mask.init(
             primaryKey: true,
         },
         name: {
-            type: DataTypes.STRING(128), // Specify string length here if needed
+            type: DataTypes.STRING(128),
             allowNull: false,
         },
         type: {
-            type: DataTypes.STRING(128), // Specify string length here if needed
+            type: DataTypes.STRING(128),
             allowNull: false,
         },
         rating: {
@@ -47,10 +43,16 @@ Mask.init(
         },
     },
     {
-        tableName: 'masks', // Specify the table name for the model
-        sequelize, // Pass the sequelize instance
-        timestamps: true, // Enable Sequelize to add createdAt and updatedAt timestamps
+        tableName: 'masks',
+        sequelize,
+        timestamps: true,
     },
 );
+
+// Synchronisez les modèles avec la base de données
+sequelize
+    .sync({ alter: true }) // Utilisez `alter: true` avec prudence; idéal pour le développement
+    .then(() => console.log('Models were synchronized successfully.'))
+    .catch((error) => console.error('Failed to synchronize models:', error));
 
 export default Mask;

@@ -17,40 +17,66 @@ class MaskService {
     // Créer un nouveau mask
     createMask(maskData) {
         return __awaiter(this, void 0, void 0, function* () {
-            const mask = yield wsMask_1.default.create(maskData);
-            return mask;
+            try {
+                const mask = yield wsMask_1.default.create(maskData);
+                return mask;
+            }
+            catch (error) {
+                throw new Error('Error creating mask');
+            }
         });
     }
     // Récupérer tous les masks
     getAllMasks() {
         return __awaiter(this, void 0, void 0, function* () {
-            const masks = yield wsMask_1.default.findAll();
-            return masks;
+            try {
+                const masks = yield wsMask_1.default.findAll();
+                return masks;
+            }
+            catch (error) {
+                throw new Error('Error fetching masks');
+            }
         });
     }
     // Récupérer un mask par son ID
     getMaskById(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            const mask = yield wsMask_1.default.findByPk(id);
-            return mask;
+            try {
+                const mask = yield wsMask_1.default.findByPk(id);
+                return mask;
+            }
+            catch (error) {
+                throw new Error('Error fetching mask by ID');
+            }
         });
     }
     // Mettre à jour un mask par son ID
     updateMask(id, maskData) {
         return __awaiter(this, void 0, void 0, function* () {
-            const [affectedCount] = yield wsMask_1.default.update(maskData, {
-                where: { id },
-            });
-            return [affectedCount];
+            try {
+                const [affectedCount, updatedMasks] = yield wsMask_1.default.update(maskData, {
+                    where: { id },
+                    returning: true, // Needed for returning the updated masks
+                });
+                return [affectedCount, updatedMasks];
+            }
+            catch (error) {
+                throw new Error('Error updating mask');
+            }
         });
     }
     // Supprimer un mask par son ID
     deleteMask(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            const affectedRows = yield wsMask_1.default.destroy({
-                where: { id },
-            });
-            return affectedRows;
+            try {
+                const affectedRows = yield wsMask_1.default.destroy({
+                    where: { id },
+                });
+                return affectedRows;
+            }
+            catch (error) {
+                throw new Error('Error deleting mask');
+            }
         });
     }
 }

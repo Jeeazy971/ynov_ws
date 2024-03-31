@@ -14,49 +14,60 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const maskService_1 = __importDefault(require("../services/maskService"));
 class MaskController {
-    // Créer un nouveau mask
     createMask(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const mask = yield maskService_1.default.createMask(req.body);
-                res.status(201).send(mask);
+                res.status(201).json(mask);
             }
             catch (error) {
-                res.status(400).send(error);
+                if (error instanceof Error) {
+                    res.status(400).json({ message: error.message });
+                }
+                else {
+                    res.status(500).json({ message: 'An unknown error occurred.' });
+                }
             }
         });
     }
-    // Récupérer tous les masks
     getAllMasks(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const masks = yield maskService_1.default.getAllMasks();
-                res.status(200).send(masks);
+                res.status(200).json(masks);
             }
             catch (error) {
-                res.status(500).send(error);
+                if (error instanceof Error) {
+                    res.status(500).json({ message: error.message });
+                }
+                else {
+                    res.status(500).json({ message: 'An unknown error occurred.' });
+                }
             }
         });
     }
-    // Récupérer un mask par son ID
     getMaskById(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const id = parseInt(req.params.id);
                 const mask = yield maskService_1.default.getMaskById(id);
                 if (mask) {
-                    res.status(200).send(mask);
+                    res.status(200).json(mask);
                 }
                 else {
-                    res.status(404).send({ message: 'Mask not found' });
+                    res.status(404).json({ message: 'Mask not found' });
                 }
             }
             catch (error) {
-                res.status(500).send(error);
+                if (error instanceof Error) {
+                    res.status(500).json({ message: error.message });
+                }
+                else {
+                    res.status(500).json({ message: 'An unknown error occurred.' });
+                }
             }
         });
     }
-    // Mettre à jour un mask
     updateMask(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
@@ -64,18 +75,22 @@ class MaskController {
                 const [updated] = yield maskService_1.default.updateMask(id, req.body);
                 if (updated) {
                     const updatedMask = yield maskService_1.default.getMaskById(id);
-                    res.status(200).send(updatedMask);
+                    res.status(200).json(updatedMask);
                 }
                 else {
-                    res.status(404).send({ message: 'Mask not found' });
+                    res.status(404).json({ message: 'Mask not found' });
                 }
             }
             catch (error) {
-                res.status(500).send(error);
+                if (error instanceof Error) {
+                    res.status(500).json({ message: error.message });
+                }
+                else {
+                    res.status(500).json({ message: 'An unknown error occurred.' });
+                }
             }
         });
     }
-    // Supprimer un mask
     deleteMask(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
@@ -85,11 +100,16 @@ class MaskController {
                     res.status(204).send();
                 }
                 else {
-                    res.status(404).send({ message: 'Mask not found' });
+                    res.status(404).json({ message: 'Mask not found' });
                 }
             }
             catch (error) {
-                res.status(500).send(error);
+                if (error instanceof Error) {
+                    res.status(500).json({ message: error.message });
+                }
+                else {
+                    res.status(500).json({ message: 'An unknown error occurred.' });
+                }
             }
         });
     }

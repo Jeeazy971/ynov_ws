@@ -20,10 +20,6 @@ app.use('/entries', entryRoutes);
 // Fonction pour démarrer le serveur
 async function startServer() {
     try {
-        // Connexion à MongoDB
-        await connectMongoDB();
-        console.log('Connected to MongoDB');
-
         // Connexion à PostgreSQL via Sequelize
         await sequelize.authenticate();
         console.log('Connection to PostgreSQL has been established successfully.');
@@ -33,6 +29,10 @@ async function startServer() {
         // Utilisez avec prudence ou remplacez par 'force: false' pour éviter de supprimer les données
         await sequelize.sync({ force: false });
         console.log('Database models synchronized.');
+
+        // Connexion à MongoDB
+        await connectMongoDB();
+        console.log('Connected to MongoDB');
 
         // Démarrage du serveur
         app.listen(PORT, () =>

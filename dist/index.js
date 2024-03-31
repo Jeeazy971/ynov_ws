@@ -54,9 +54,6 @@ app.use('/entries', entryRoutes_1.default);
 function startServer() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            // Connexion à MongoDB
-            yield (0, mongodb_1.default)();
-            console.log('Connected to MongoDB');
             // Connexion à PostgreSQL via Sequelize
             yield sequelize_1.sequelize.authenticate();
             console.log('Connection to PostgreSQL has been established successfully.');
@@ -65,6 +62,9 @@ function startServer() {
             // Utilisez avec prudence ou remplacez par 'force: false' pour éviter de supprimer les données
             yield sequelize_1.sequelize.sync({ force: false });
             console.log('Database models synchronized.');
+            // Connexion à MongoDB
+            yield (0, mongodb_1.default)();
+            console.log('Connected to MongoDB');
             // Démarrage du serveur
             app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}/api-docs`));
         }
