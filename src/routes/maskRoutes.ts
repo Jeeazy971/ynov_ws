@@ -12,59 +12,56 @@ const router = express.Router();
  *       required:
  *         - name
  *         - description
- *         - maskJson
+ *         - type
+ *         - rating
  *       properties:
- *         id:
- *           type: integer
- *           description: The unique identifier for the mask.
  *         name:
  *           type: string
- *           description: The name of the mask.
+ *           example: "Masque N95"
+ *           description: Le nom du masque.
  *         description:
  *           type: string
- *           description: A description of the mask.
- *         maskJson:
- *           type: object
- *           description: A JSON detailing specific features of the mask.
+ *           example: "Un masque très efficace pour filtrer les particules."
+ *           description: Une description du masque.
+ *         type:
+ *           type: string
+ *           example: "N95"
+ *           description: Le type du masque.
+ *         rating:
+ *           type: integer
+ *           example: 95
+ *           description: L'efficacité du masque en pourcentage.
  *     Error:
  *       type: object
  *       properties:
  *         message:
  *           type: string
- *           description: A description of the error.
- */
-
-/**
- * @swagger
- * tags:
- *   name: Masks
- *   description: The masks managing API
- */
-
-/**
- * @swagger
+ *           description: Une description de l'erreur.
+ *           example: "Données de requête invalides"
+ *   parameters:
+ *     maskId:
+ *       in: path
+ *       name: id
+ *       required: true
+ *       schema:
+ *         type: integer
+ *         description: L'ID du masque.
+ *
  * /masks:
  *   get:
- *     summary: Returns a list of all masks
+ *     summary: Retourne une liste de tous les masques
  *     tags: [Masks]
  *     responses:
  *       200:
- *         description: A list of masks
+ *         description: Une liste de masques
  *         content:
  *           application/json:
  *             schema:
  *               type: array
  *               items:
  *                 $ref: '#/components/schemas/Mask'
- */
-
-router.get('/', maskController.getAllMasks);
-
-/**
- * @swagger
- * /masks:
  *   post:
- *     summary: Creates a new mask
+ *     summary: Crée un nouveau masque
  *     tags: [Masks]
  *     requestBody:
  *       required: true
@@ -74,59 +71,38 @@ router.get('/', maskController.getAllMasks);
  *             $ref: '#/components/schemas/Mask'
  *     responses:
  *       201:
- *         description: The mask has been created
+ *         description: Le masque a été créé
  *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Mask'
  *       400:
- *         description: Invalid request data
+ *         description: Données de requête invalides
  *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Error'
- */
-
-router.post('/', maskController.createMask);
-
-/**
- * @swagger
+ *
  * /masks/{id}:
  *   get:
- *     summary: Returns a mask by its ID
+ *     summary: Retourne un masque par son ID
  *     tags: [Masks]
  *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         schema:
- *           type: integer
- *         description: The ID of the mask
+ *       - $ref: '#/components/parameters/maskId'
  *     responses:
  *       200:
- *         description: A specific mask
+ *         description: Un masque spécifique
  *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Mask'
  *       404:
- *         description: Mask not found
- */
-
-router.get('/:id', maskController.getMaskById);
-
-/**
- * @swagger
- * /masks/{id}:
+ *         description: Masque non trouvé
  *   put:
- *     summary: Updates a mask by its ID
+ *     summary: Met à jour un masque par son ID
  *     tags: [Masks]
  *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         schema:
- *           type: integer
+ *       - $ref: '#/components/parameters/maskId'
  *     requestBody:
  *       required: true
  *       content:
@@ -135,32 +111,25 @@ router.get('/:id', maskController.getMaskById);
  *             $ref: '#/components/schemas/Mask'
  *     responses:
  *       200:
- *         description: The mask has been updated
+ *         description: Le masque a été mis à jour
  *       404:
- *         description: Mask not found
- */
-
-router.put('/:id', maskController.updateMask);
-
-/**
- * @swagger
- * /masks/{id}:
+ *         description: Masque non trouvé
  *   delete:
- *     summary: Deletes a mask by its ID
+ *     summary: Supprime un masque par son ID
  *     tags: [Masks]
  *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         schema:
- *           type: integer
+ *       - $ref: '#/components/parameters/maskId'
  *     responses:
  *       204:
- *         description: The mask has been deleted
+ *         description: Le masque a été supprimé
  *       404:
- *         description: Mask not found
+ *         description: Masque non trouvé
  */
 
+router.get('/', maskController.getAllMasks);
+router.post('/', maskController.createMask);
+router.get('/:id', maskController.getMaskById);
+router.put('/:id', maskController.updateMask);
 router.delete('/:id', maskController.deleteMask);
 
 export default router;
