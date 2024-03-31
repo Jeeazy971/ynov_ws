@@ -28,6 +28,12 @@ async function startServer() {
         await sequelize.authenticate();
         console.log('Connection to PostgreSQL has been established successfully.');
 
+        // Synchronisation des modèles avec la base de données
+        // 'force: true' supprimera toutes les tables existantes et les recréera
+        // Utilisez avec prudence ou remplacez par 'force: false' pour éviter de supprimer les données
+        await sequelize.sync({ force: false });
+        console.log('Database models synchronized.');
+
         // Démarrage du serveur
         app.listen(PORT, () =>
             console.log(`Server running on http://localhost:${PORT}/api-docs`),
