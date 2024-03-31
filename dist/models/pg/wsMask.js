@@ -1,17 +1,32 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.WsMask = void 0;
 const sequelize_1 = require("sequelize");
-const sequelize_2 = __importDefault(require("../../config/sequelize"));
-class WsMask extends sequelize_1.Model {
+const sequelize_2 = require("../../config/sequelize"); // Adjust import based on your setup
+class Mask extends sequelize_1.Model {
 }
-exports.WsMask = WsMask;
-WsMask.init({
-    id: { type: sequelize_1.DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-    name: { type: sequelize_1.DataTypes.STRING },
-    description: { type: sequelize_1.DataTypes.TEXT },
-    mask_json: { type: sequelize_1.DataTypes.JSON },
-}, { sequelize: sequelize_2.default, modelName: 'ws_mask' });
+// Initialize the model's schema using 'init'
+Mask.init({
+    id: {
+        type: sequelize_1.DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true,
+    },
+    name: {
+        type: sequelize_1.DataTypes.STRING(128), // Specify string length here if needed
+        allowNull: false,
+    },
+    type: {
+        type: sequelize_1.DataTypes.STRING(128), // Specify string length here if needed
+        allowNull: false,
+    },
+    rating: {
+        type: sequelize_1.DataTypes.INTEGER,
+        allowNull: false,
+    },
+}, {
+    tableName: 'masks', // Specify the table name for the model
+    sequelize: // Specify the table name for the model
+    sequelize_2.sequelize, // Pass the sequelize instance
+    timestamps: true, // Enable Sequelize to add createdAt and updatedAt timestamps
+});
+exports.default = Mask;

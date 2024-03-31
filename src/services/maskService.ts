@@ -1,35 +1,48 @@
-import { WsMask } from './../models/pg/wsMask';
+import Mask from "../models/pg/wsMask";
 
-export const createMask = async (name: string, description: string, maskJson: object) => {
-    return await WsMask.create({ name, description, mask_json: maskJson });
-};
+interface MaskData {
+    name: string;
+    type: string;
+    rating: number;
+}
 
-export const getAllMasks = async () => {
-    return await WsMask.findAll();
-};
-
-export const getMaskById = async (id: number) => {
-    try {
-        const mask = await WsMask.findByPk(id);
+class MaskService {
+    // Créer un nouveau mask
+    async createMask(maskData: MaskData): Promise<Mask> {
+        const mask = await Mask.create(maskData);
         return mask;
-    } catch (error) {
-        console.error('Error getting mask by ID:', error);
-        throw error;
     }
-};
 
-export const updateMask = async (
-    id: number,
-    name?: string,
-    description?: string,
-    maskJson?: object,
-) => {
-    return await WsMask.update(
-        { name, description, mask_json: maskJson },
-        { where: { id } },
-    );
-};
+    // Récupérer tous les masks
+    async getAllMasks(): Promise<Mask[]> {
+        const masks = await Mask.findAll();
+        return masks;
+    }
 
-export const deleteMask = async (id: number) => {
-    return await WsMask.destroy({ where: { id } });
-};
+    // Récupérer un mask par son ID
+    async getMaskById(id: number): Promise<Mask | null> {
+        const mask = await Mask.findByPk(id);
+        return mask;
+    }
+
+    // Mettre à jour un mask par son ID
+    async updateMask(
+        id: number,
+        maskData: Partial<MaskData>,
+    ): Promise<[affectedCount: number]> {
+        const [affectedCount] = await Mask.update(maskData, {
+            where: { id },
+        });
+        return [affectedCount];
+    }
+
+    // Supprimer un mask par son ID
+    async deleteMask(id: number): Promise<number> {
+        const affectedRows = await Mask.destroy({
+            where: { id },
+        });
+        return affectedRows;
+    }
+}
+
+export default new MaskService();

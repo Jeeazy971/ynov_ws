@@ -8,33 +8,50 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteMask = exports.updateMask = exports.getMaskById = exports.getAllMasks = exports.createMask = void 0;
-const wsMask_1 = require("./../models/pg/wsMask");
-const createMask = (name, description, maskJson) => __awaiter(void 0, void 0, void 0, function* () {
-    return yield wsMask_1.WsMask.create({ name, description, mask_json: maskJson });
-});
-exports.createMask = createMask;
-const getAllMasks = () => __awaiter(void 0, void 0, void 0, function* () {
-    return yield wsMask_1.WsMask.findAll();
-});
-exports.getAllMasks = getAllMasks;
-const getMaskById = (id) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const mask = yield wsMask_1.WsMask.findByPk(id);
-        return mask;
+const wsMask_1 = __importDefault(require("../models/pg/wsMask"));
+class MaskService {
+    // Créer un nouveau mask
+    createMask(maskData) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const mask = yield wsMask_1.default.create(maskData);
+            return mask;
+        });
     }
-    catch (error) {
-        console.error('Error getting mask by ID:', error);
-        throw error;
+    // Récupérer tous les masks
+    getAllMasks() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const masks = yield wsMask_1.default.findAll();
+            return masks;
+        });
     }
-});
-exports.getMaskById = getMaskById;
-const updateMask = (id, name, description, maskJson) => __awaiter(void 0, void 0, void 0, function* () {
-    return yield wsMask_1.WsMask.update({ name, description, mask_json: maskJson }, { where: { id } });
-});
-exports.updateMask = updateMask;
-const deleteMask = (id) => __awaiter(void 0, void 0, void 0, function* () {
-    return yield wsMask_1.WsMask.destroy({ where: { id } });
-});
-exports.deleteMask = deleteMask;
+    // Récupérer un mask par son ID
+    getMaskById(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const mask = yield wsMask_1.default.findByPk(id);
+            return mask;
+        });
+    }
+    // Mettre à jour un mask par son ID
+    updateMask(id, maskData) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const [affectedCount] = yield wsMask_1.default.update(maskData, {
+                where: { id },
+            });
+            return [affectedCount];
+        });
+    }
+    // Supprimer un mask par son ID
+    deleteMask(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const affectedRows = yield wsMask_1.default.destroy({
+                where: { id },
+            });
+            return affectedRows;
+        });
+    }
+}
+exports.default = new MaskService();

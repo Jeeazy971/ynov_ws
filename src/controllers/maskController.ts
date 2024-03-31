@@ -1,64 +1,72 @@
 import { Request, Response } from 'express';
-import * as maskService from '../services/maskService';
+import maskService from '../services/maskService';
 
-export const getAllMasks = async (req: Request, res: Response): Promise<void> => {
-    try {
-        const masks = await maskService.getAllMasks();
-        res.json(masks);
-    } catch (error) {
-        res.status(500).send({ message: 'Error retrieving masks' });
-    }
-};
-
-export const getMaskById = async (req: Request, res: Response): Promise<void> => {
-    try {
-        const id = parseInt(req.params.id);
-        const mask = await maskService.getMaskById(id);
-        if (mask) {
-            res.json(mask);
-        } else {
-            res.status(404).send({ message: 'Mask not found' });
+class MaskController {
+    // Créer un nouveau mask
+    async createMask(req: Request, res: Response) {
+        try {
+            const mask = await maskService.createMask(req.body);
+            res.status(201).send(mask);
+        } catch (error) {
+            res.status(400).send(error);
         }
-    } catch (error) {
-        res.status(500).send({ message: 'Error retrieving mask' });
     }
-};
 
-export const createMask = async (req: Request, res: Response): Promise<void> => {
-    try {
-        const { name, description, maskJson } = req.body;
-        const newMask = await maskService.createMask(name, description, maskJson);
-        res.status(201).json(newMask);
-    } catch (error) {
-        res.status(400).send({ message: 'Error creating mask' });
-    }
-};
-
-export const updateMask = async (req: Request, res: Response): Promise<void> => {
-    try {
-        const id = parseInt(req.params.id);
-        const { name, description, maskJson } = req.body;
-        const result = await maskService.updateMask(id, name, description, maskJson);
-        if (result[0] > 0) {
-            res.send({ message: 'Mask updated successfully' });
-        } else {
-            res.status(404).send({ message: 'Mask not found' });
+    // Récupérer tous les masks
+    async getAllMasks(req: Request, res: Response) {
+        try {
+            const masks = await maskService.getAllMasks();
+            res.status(200).send(masks);
+        } catch (error) {
+            res.status(500).send(error);
         }
-    } catch (error) {
-        res.status(400).send({ message: 'Error updating mask' });
     }
-};
 
-export const deleteMask = async (req: Request, res: Response): Promise<void> => {
-    try {
-        const id = parseInt(req.params.id);
-        const deleteCount = await maskService.deleteMask(id);
-        if (deleteCount > 0) {
-            res.send({ message: 'Mask deleted successfully' });
-        } else {
-            res.status(404).send({ message: 'Mask not found' });
+    // Récupérer un mask par son ID
+    async getMaskById(req: Request, res: Response) {
+        try {
+            const id = parseInt(req.params.id);
+            const mask = await maskService.getMaskById(id);
+            if (mask) {
+                res.status(200).send(mask);
+            } else {
+                res.status(404).send({ message: 'Mask not found' });
+            }
+        } catch (error) {
+            res.status(500).send(error);
         }
-    } catch (error) {
-        res.status(500).send({ message: 'Error deleting mask' });
     }
-};
+
+    // Mettre à jour un mask
+    async updateMask(req: Request, res: Response) {
+        try {
+            const id = parseInt(req.params.id);
+            const [updated] = await maskService.updateMask(id, req.body);
+            if (updated) {
+                const updatedMask = await maskService.getMaskById(id);
+                res.status(200).send(updatedMask);
+            } else {
+                res.status(404).send({ message: 'Mask not found' });
+            }
+        } catch (error) {
+            res.status(500).send(error);
+        }
+    }
+
+    // Supprimer un mask
+    async deleteMask(req: Request, res: Response) {
+        try {
+            const id = parseInt(req.params.id);
+            const deleted = await maskService.deleteMask(id);
+            if (deleted) {
+                res.status(204).send();
+            } else {
+                res.status(404).send({ message: 'Mask not found' });
+            }
+        } catch (error) {
+            res.status(500).send(error);
+        }
+    }
+}
+
+export default new MaskController();
