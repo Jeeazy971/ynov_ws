@@ -22,7 +22,7 @@ const router = express.Router();
  *         description:
  *           type: string
  *           example: "Un masque très efficace pour filtrer les particules."
- *           description: Une description du masque.
+ *           description: La description du masque.
  *         type:
  *           type: string
  *           example: "N95"
@@ -30,36 +30,45 @@ const router = express.Router();
  *         rating:
  *           type: integer
  *           example: 95
- *           description: L'efficacité du masque en pourcentage.
+ *           description: L'efficacité du masque notée sur 100.
  *     Error:
  *       type: object
  *       properties:
  *         message:
  *           type: string
- *           description: Une description de l'erreur.
+ *           description: Description de l'erreur.
  *           example: "Données de requête invalides"
- *   parameters:
- *     maskId:
- *       in: path
- *       name: id
- *       required: true
- *       schema:
- *         type: integer
- *         description: L'ID du masque.
- *
+ */
+
+/**
+ * @swagger
+ * tags:
+ *   name: Masks
+ *   description: Gestion des masques
+ */
+
+/**
+ * @swagger
  * /masks:
  *   get:
- *     summary: Retourne une liste de tous les masques
+ *     summary: Renvoie la liste de tous les masques
  *     tags: [Masks]
  *     responses:
  *       200:
- *         description: Une liste de masques
+ *         description: Une liste des masques
  *         content:
  *           application/json:
  *             schema:
  *               type: array
  *               items:
  *                 $ref: '#/components/schemas/Mask'
+ *       500:
+ *         description: Erreur du serveur
+ */
+
+/**
+ * @swagger
+ * /masks:
  *   post:
  *     summary: Crée un nouveau masque
  *     tags: [Masks]
@@ -71,7 +80,7 @@ const router = express.Router();
  *             $ref: '#/components/schemas/Mask'
  *     responses:
  *       201:
- *         description: Le masque a été créé
+ *         description: Le masque a été créé avec succès
  *         content:
  *           application/json:
  *             schema:
@@ -82,13 +91,21 @@ const router = express.Router();
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Error'
- *
+ */
+
+/**
+ * @swagger
  * /masks/{id}:
  *   get:
- *     summary: Retourne un masque par son ID
+ *     summary: Renvoie un masque par son ID
  *     tags: [Masks]
  *     parameters:
- *       - $ref: '#/components/parameters/maskId'
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: L'ID du masque
  *     responses:
  *       200:
  *         description: Un masque spécifique
@@ -98,11 +115,21 @@ const router = express.Router();
  *               $ref: '#/components/schemas/Mask'
  *       404:
  *         description: Masque non trouvé
+ */
+
+/**
+ * @swagger
+ * /masks/{id}:
  *   put:
  *     summary: Met à jour un masque par son ID
  *     tags: [Masks]
  *     parameters:
- *       - $ref: '#/components/parameters/maskId'
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: L'ID du masque à mettre à jour
  *     requestBody:
  *       required: true
  *       content:
@@ -111,17 +138,27 @@ const router = express.Router();
  *             $ref: '#/components/schemas/Mask'
  *     responses:
  *       200:
- *         description: Le masque a été mis à jour
+ *         description: Le masque a été mis à jour avec succès
  *       404:
  *         description: Masque non trouvé
+ */
+
+/**
+ * @swagger
+ * /masks/{id}:
  *   delete:
  *     summary: Supprime un masque par son ID
  *     tags: [Masks]
  *     parameters:
- *       - $ref: '#/components/parameters/maskId'
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: L'ID du masque à supprimer
  *     responses:
  *       204:
- *         description: Le masque a été supprimé
+ *         description: Le masque a été supprimé avec succès
  *       404:
  *         description: Masque non trouvé
  */
