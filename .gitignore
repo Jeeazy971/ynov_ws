@@ -11,6 +11,11 @@
 .env.test.local
 .env.production.local
 
+# .gitignore
+.env.development
+.env.production
+
+
 # Fichiers de journalisation
 *.log
 npm-debug.log*

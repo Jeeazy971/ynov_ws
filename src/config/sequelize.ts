@@ -1,52 +1,40 @@
-import { config } from 'dotenv';
-import { Sequelize, Dialect } from 'sequelize';
+import { Options, Sequelize } from 'sequelize';
+import dotenv from 'dotenv';
 
-// Charger les variables d'environnement
-config();
+dotenv.config({ path: `.env.${process.env.NODE_ENV || 'development'}` });
 
-// Type pour les variables d'environnement de configuration de la base de données
-interface DbConfig {
-    DB_HOST: string;
-    DB_PORT: number;
-    DB_DATABASE: string;
-    DB_USERNAME: string;
-    DB_PASSWORD: string;
-    DB_DIALECT: Dialect;
-}
-
-// Fonction pour extraire et valider les configurations de la base de données depuis les variables d'environnement ou utiliser des valeurs par défaut
-function getDatabaseConfig(): DbConfig {
-    return {
-        DB_HOST: process.env.DB_HOST || 'localhost',
-        DB_PORT: parseInt(process.env.DB_PORT || '5432', 10),
-        DB_DATABASE: process.env.DB_DATABASE || 'postgres',
-        DB_USERNAME: process.env.DB_USERNAME || 'postgres',
-        DB_PASSWORD: process.env.DB_PASSWORD || '',
-        DB_DIALECT: (process.env.DB_DIALECT || 'postgres') as Dialect,
-    };
-}
-
-const { DB_HOST, DB_PORT, DB_DATABASE, DB_USERNAME, DB_PASSWORD, DB_DIALECT } =
-    getDatabaseConfig();
-
-// Création de l'instance Sequelize avec les configurations
-const sequelize = new Sequelize(DB_DATABASE, DB_USERNAME, DB_PASSWORD, {
-    host: DB_HOST,
-    port: DB_PORT,
-    dialect: DB_DIALECT,
-    logging: false, // Désactiver les logs SQL pour la clarté, activer selon besoin
+console.log({
+    database: process.env.DB_DATABASE,
+    username: process.env.DB_USERNAME,
+    password: 'REDACTED', // Pour des raisons de sécurité, ne loggez pas le mot de passe.
+    host: process.env.DB_HOST,
+    port: process.env.DB_PORT,
+    dialect: process.env.DB_DIALECT,
+    logging: process.env.DB_LOGGING === 'true',
 });
 
-export default sequelize;
+const sequelize = new Sequelize(
+    process.env.DB_DATABASE || 'postgres', // Default value if not set
+    process.env.DB_USERNAME || 'postgres',
+    process.env.DB_PASSWORD || '',
+    {
+        host: process.env.DB_HOST || 'localhost',
+        port: parseInt(process.env.DB_PORT || '5432', 10),
+        dialect: 'postgres', // Use the environment variable here
+        logging: process.env.DB_LOGGING === 'true',
+    },
+);
 
-// Tester la connexion
+
 async function testDatabaseConnection() {
     try {
         await sequelize.authenticate();
-        console.log('Connexion à la base de données réussie !');
+        console.log('Connexion à la base de données réussie.');
     } catch (error) {
         console.error('Impossible de se connecter à la base de données:', error);
     }
 }
 
 testDatabaseConnection();
+
+export default sequelize;
